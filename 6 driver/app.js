@@ -7,6 +7,7 @@ if (hasLicense && age >= 18 && !isDrunk) {
 } else {
     console.log('Не Может сесть за руль');
 }
+
 // Второй вариант
 const res = hasLicense && age >= 18 && !isDrunk ? 'Может' : 'Не может';
 console.log(res);

@@ -1,13 +1,13 @@
-const selectLanguage = 'en';
-switch (true) {
-    case selectLanguage === 'ru':
+const selectLanguage = prompt('Выберите язык: ru, de, en');
+switch (selectLanguage) {
+    case 'ru':
         console.log('Добрый день!');
         break;
-    case selectLanguage === 'de':
+    case 'de':
         console.log('Gutten tag!');
         break;
-    case selectLanguage === 'en':
+    case 'en':
         console.log('Good morning');
         break;
-    default: console.log('Язык не выбран')
+    default: console.log('Язык не выбран');
 }
