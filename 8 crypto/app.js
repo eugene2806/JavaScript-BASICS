@@ -1,7 +1,7 @@
 const decryptor = prompt('Введите пароль для шифрования');
 const password = prompt('Введите пароль');
 
-function coder(decryptor) {
+function encryptionPassword(decryptor) {
     const array = decryptor.split('').reverse();
     const lastElement = array.pop();
     const firstElement = array.shift();
@@ -12,8 +12,9 @@ function coder(decryptor) {
     return array.join('');
 }
 
-function decoder(decryptor, password) {
-    const coded = coder(decryptor).split('');
+
+function decryptingPassword(decryptor, password) {
+    const coded = encryptionPassword(decryptor).split('');
     const lastElement = coded.pop();
     const oneElement = coded.shift();
     coded.unshift(lastElement);
@@ -28,4 +29,4 @@ function decoder(decryptor, password) {
         return false;
 }
 
-console.log(decoder(decryptor, password));
+console.log(decryptingPassword(decryptor, password));
