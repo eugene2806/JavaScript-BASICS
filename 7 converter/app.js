@@ -17,6 +17,7 @@ function conversionRates(currencyDeposit, currencyExchange) {
                 return 1.1;
             case currencyDeposit === 'USD' && currencyExchange === 'EUR':
                 return 0.90955;
+                default: return 0;
         }
     }
     return;
