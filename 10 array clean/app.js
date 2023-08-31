@@ -1,19 +1,15 @@
 const arr = [1, 2, 3, 4, 12, 5, 6, 7, 8, 9, 10, 11, 12, 1];
 
 function filterOfNumbers(el) {
-    if(el < 10) {
-        return true;
-    } else {
-        return false;
-    }
+    return el < 10;
 }
 
 function removeNumbersOfArray(array, fn) {
     const newArray = [];
-    for (let index in array) {
-        const res = fn(array[index]);
+    for (let element of array) {
+        const res = fn(element);
         if (!res) {
-            newArray.push(array[index]);
+            newArray.push(element);
         }
     }
     return newArray;
