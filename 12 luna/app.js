@@ -5,21 +5,20 @@ function checkCard(numberCard) {
 
     if (numberCard.length != 16) {
         return false;
-    }
-    const chek = numberCard.map((el, index) => {
+    };
+
+    const check = numberCard.reduce((acc, el, index) => {
         if ((index + 1) % 2 === 0) {
-            return Number(el);
+            return acc + Number(el);
         };
         el = Number(el * 2);
         if (el < 9) {
-            return  el;
+            return acc + el;
         };
-        return el - 9;
-    }).reduce((acc, el) => acc += el);
-    if (chek % 10 === 0) {
-        return true;
-    };
-    return false;
+        return acc + (el - 9);
+    },0);
+    
+    return check % 10 === 0;
 };
 
 console.log(checkCard(card));
