@@ -1,6 +1,6 @@
 const array = 
 ['10/02/2022', '31/06/2022', '11/03/2022', 'test', '20-02-2022', '32-2022', '30-09-2022', '31-09-2022',
- '08/31/2022', '30-02-2024', '31-04-2010'];
+'08/31/2022', '29-02-2023', '31-04-2010'];
 
 function checkValidDate(date) {
 
@@ -15,8 +15,27 @@ function checkValidDate(date) {
             };
             break;
          case '02': 
-            if (Number(date[0]) < 30) {
-               return date;
+            if (Number(date[2]) % 4 === 0 && Number(date[2]) % 100 === 0) {
+               if (Number(date[2]) % 400 === 0) {
+                  if (Number(date[0]) === 29) {
+                     return date;
+                  } else {
+                     if (Number(date[0]) === 28) {
+                        return date;
+                     };
+                  };
+               };
+            } else {
+               if (Number(date[2]) % 4 != 0) {
+                  if (Number(date[0]) === 28) {
+                     return date;
+                  };
+               } else {
+                  if (Number(date[0]) === 29) {
+                     return date;
+                  };
+               };
+               
             };
             break;
          default: return date;
