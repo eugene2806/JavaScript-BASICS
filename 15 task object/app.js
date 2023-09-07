@@ -19,7 +19,7 @@ const toDoList = {
     },
     removeTask(id) {
         const removeTaskIndex = this.findIndexTask(id);
-         if (removeTaskIndex != -1) {
+         if (removeTaskIndex !== -1) {
              this.tasks.splice(removeTaskIndex, 1);
          } else {
              console.log(`Задача с ID ${id} не найдена`);
@@ -28,19 +28,19 @@ const toDoList = {
     },
     updateNameOrPriorityForID(title, id, priority) {
         const findTaskID = this.findIndexTask(id);
-        if (findTaskID != -1) {
+        if (findTaskID !== -1) {
             this.tasks[findTaskID].title = title;
             this.tasks[findTaskID].priority = priority;
         } else {
             console.log(`Задача с ID ${id} не найдена`);
         };
     },
-    sordByPriority(parameter) {
+    sordByPriority(parameter = 'asc') {
         switch(parameter) {
-            case 'up': 
+            case 'asc': 
                 this.tasks.sort((a, b) => a.priority - b.priority);
                 break;
-            case 'down':
+            case 'desc':
                 this.tasks.sort((a, b) => b.priority - a.priority);
                 break;
                 default: console.log(`Параметр сортировки => ${parameter} задан не верно!`);
@@ -68,7 +68,7 @@ toDoList.tasks.forEach(task => {
 });
 console.log('');
 
-toDoList.sordByPriority('up');
+toDoList.sordByPriority();
 toDoList.tasks.forEach(task => {
     console.log(task)
 });
