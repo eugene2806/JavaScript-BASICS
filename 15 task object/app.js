@@ -3,22 +3,21 @@
 const toDoList = {
     tasks:[
     { title: 'Помыть посуду',
-      id: 1,
-      priority: 1 }
+      priority: 1,
+      id: 1 },
     ],
-    findIndexTask(id) {
-        return this.tasks.findIndex(task => task.id === id);
-    },
-    addTask(title, id, priority) {
-        const findTaskID = this.findIndexTask(id);
-        if (findTaskID === -1) {
-            this.tasks.push({ title, id, priority });
-        } else {
-            console.log(`Задача с ID ${id} уже создана`);
-        };
+   
+    addTask(task) {
+        this.tasks.push(task);
+        // const findTaskID = this.tasks.findIndex(task => task.id === id);
+        // if (findTaskID === -1) {
+        //     this.tasks.push({ title, id, priority });
+        // } else {
+        //     console.log(`Задача с ID ${id} уже создана`);
+        // };
     },
     removeTask(id) {
-        const removeTaskIndex = this.findIndexTask(id);
+        const removeTaskIndex = this.tasks.findIndex(task => task.id === id);
          if (removeTaskIndex !== -1) {
              this.tasks.splice(removeTaskIndex, 1);
          } else {
@@ -26,11 +25,10 @@ const toDoList = {
          };
          
     },
-    updateNameOrPriorityForID(title, id, priority) {
-        const findTaskID = this.findIndexTask(id);
+    updateTask(id, updatedTask) {
+        const findTaskID = this.tasks.findIndex(task => task.id === id);
         if (findTaskID !== -1) {
-            this.tasks[findTaskID].title = title;
-            this.tasks[findTaskID].priority = priority;
+            this.tasks[findTaskID] = {...updatedTask, id};
         } else {
             console.log(`Задача с ID ${id} не найдена`);
         };
@@ -48,28 +46,46 @@ const toDoList = {
     }
 };
 
-toDoList.addTask('Пропылесосить', 2, 2);
-toDoList.addTask('Прочитать книгу', 3, 5);
-toDoList.addTask('Купить продукты', 4, 3);
+
+toDoList.addTask({
+    title: 'Купить продукты',
+    priority: 3,
+    id: toDoList.tasks.length + 1
+});
+toDoList.addTask({
+    title: 'Прочитать книгу',
+    priority: 5,
+    id: toDoList.tasks.length + 1
+});
+toDoList.addTask({
+    title: 'Пропылесосить',
+    priority: 4,
+    id: toDoList.tasks.length + 1
+});
+console.log(toDoList.tasks);
 toDoList.tasks.forEach(task => {
-    console.log(task)
+    console.log(task);
 });
 console.log('');
 
 toDoList.removeTask(2);
+console.log(toDoList.tasks);
 toDoList.tasks.forEach(task => {
-    console.log(task)
+    console.log(task);
 });
 console.log('');
 
-toDoList.updateNameOrPriorityForID('Составить план на день', 4, 2);
+toDoList.updateTask(3, {title: 'Составить план на день', priority: 8});
+console.log(toDoList.tasks);
 toDoList.tasks.forEach(task => {
-    console.log(task)
+    console.log(task);
 });
 console.log('');
 
 toDoList.sordByPriority();
+console.log(toDoList.tasks);
 toDoList.tasks.forEach(task => {
-    console.log(task)
+    console.log(task);
 });
+
 
