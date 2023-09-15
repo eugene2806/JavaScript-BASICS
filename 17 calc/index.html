@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Calculator</title>
+</head>
+<body>
+    <div class="inputs">
+        <input type="number" class="input input_1">
+        <input type="number" class="input input_2">
+    </div>
+    <div class="panel">
+        <div class="panel_text">
+            <div class="panel_text_hidden"></div>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="plus" onclick="calculation(addition)"><img class="plus_img" src="./images/multiply.png" alt=""></button>
+        <button class="minus" onclick="calculation(subtraction)"><img src="./images/subtraction.png" alt=""></button>
+        <button class="multiply" onclick="calculation(multiply)"><img src="./images/multiply.png" alt=""></button>
+        <button class="divide" onclick="calculation(divide)"><img src="./images/divide.png" alt=""></button>
+        <button class="equal" onclick="equal()"><img src="./images/equal.png" alt=""></button>
+    </div>
+    <script src="./app.js"></script>
+</body>
+</html>
