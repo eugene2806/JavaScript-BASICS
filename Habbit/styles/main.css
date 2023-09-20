@@ -129,8 +129,8 @@ h1 {
     position: absolute;
     background: rgb(80, 81, 249);
     border-radius: 4px;
-    width: 80%;
     height: 4px;
+    transition: all 0.5s;
 }
 
 main {
