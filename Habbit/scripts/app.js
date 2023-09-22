@@ -2,6 +2,7 @@
 
 let habbits = [];
 const HABBIT_KEY = 'HABBIT_KEY';
+let globalActiveHabbit;
 
 /* Page */
 const page = {
@@ -32,9 +33,6 @@ function saveData() {
 
 /* Render */
 function rerenderMenu(activeHabbit) {
-    if(!activeHabbit) {
-        return;
-    }
     for(const habbit of habbits) {
         const existed = document.querySelector(`[menu-habbit-id="${habbit.id}"]`);
         if (!existed) {
@@ -60,9 +58,6 @@ function rerenderMenu(activeHabbit) {
 }
 
 function renderHead(activeHabbit) {
-    if (!activeHabbit) {
-        return;
-    }
     page.header.h1.innerText = activeHabbit.name;
     const progress = activeHabbit.days.length / activeHabbit.target > 1
         ? 100
@@ -79,7 +74,7 @@ function renderContent(activeHabbit) {
         Day.innerHTML = `
         <div class="habbit__day">День ${index+1}</div>
         <div class="habbit__comment">${day.comment}</div>
-        <button class="habbit__delete"><img src="./images/delete.svg" alt=""></button>`
+        <button class="habbit__delete" onclick="removeDays()"><img src="./images/delete.svg" alt=""></button>`
         page.content.daysContainer.appendChild(Day);
         
     });
@@ -87,6 +82,7 @@ function renderContent(activeHabbit) {
 }
 
 function rerender(activeHabbitId) {
+    globalActiveHabbit = activeHabbitId;
     const activeHabbit = habbits.find(habbit => habbit.id === activeHabbitId);
     if(!activeHabbit) {
         return;
@@ -95,6 +91,35 @@ function rerender(activeHabbitId) {
     renderHead(activeHabbit);
     renderContent(activeHabbit);
 }
+
+/* Work width days*/
+function addDays(event) {
+    const form = event.target;
+    event.preventDefault();
+    const data = new FormData(form);
+    const comment = data.get('comment');
+    form['comment'].classList.remove('error');
+    if(!comment) {
+        form['comment'].classList.add('error');
+    }
+    habbits = habbits.map(habbit => {
+        if(habbit.id === globalActiveHabbit) {
+            return {
+                ...habbit,
+                days:habbit.days.concat([{comment}])
+            }
+        }
+        return habbit;
+    })
+    form['comment'].value = '';
+    rerender(globalActiveHabbit);
+    saveData();
+}
+
+function removeDays() {
+
+}
+
 /* Init */
 (() => {
     loadData();
