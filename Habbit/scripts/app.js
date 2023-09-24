@@ -17,7 +17,8 @@ const page = {
         nextDay: document.querySelector('.habbit__day')
     },
     popup: {
-        index: document.getElementById('add-habbit_popup')
+        index: document.getElementById('add-habbit_popup'),
+        iconField: document.querySelector('.popup__form input[name="icon"]')
     }
 }
 
@@ -97,27 +98,21 @@ function rerender(activeHabbitId) {
 
 /* Work width days*/
 function addDays(event) {
-    const form = event.target;
     event.preventDefault();
-    const data = new FormData(form);
-    const comment = data.get('comment');
-    form['comment'].classList.remove('error');
-    if(!comment) {
-        form['comment'].classList.add('error');
-    } else {
+    const res = validationForm(event.target);
     habbits = habbits.map(habbit => {
         if(habbit.id === globalActiveHabbit) {
             return {
                 ...habbit,
-                days:habbit.days.concat([{comment}])
+                days:habbit.days.concat([{comment: res.comment}])
             }
         }
         return habbit;
     })
-    form['comment'].value = '';
+    
     rerender(globalActiveHabbit);
     saveData();
-    }
+    resetForm(event.target);
 }
 
 function removeDays(index) {
@@ -149,6 +144,68 @@ function togglePopup() {
         page.popup.index.classList.remove('cover_hidden');
     } else {
         page.popup.index.classList.add('cover_hidden');
+    }
+}
+
+function selectIcon(context, icon) {
+    page.popup.iconField.value = icon;
+    const activeIcon = document.querySelector('.icon.icon_active');
+    activeIcon.classList.remove('icon_active'); 
+    context.classList.add('icon_active');
+}
+
+function addHabbit(event) {
+    event.preventDefault();
+    const res = validationForm(event.target);
+    if(!res) {
+        return;
+    }
+    const maxId = habbits.reduce((acc, habbit) => { return acc > habbit.id ? acc : habbit.id }, 0)
+    habbits.push({
+        "id": maxId + 1,
+        "icon": res.icon,
+        "name": res.name,
+        "target": Number(res.target),
+        "days": []
+    });
+    saveData();
+    rerender(maxId + 1);
+    togglePopup();
+    resetForm(event.target);
+}
+
+function validationForm(event) {
+    const form = event
+    let arrayfields = 
+    [...form.querySelectorAll('input')].map(el => el.name);
+    const data = new FormData(form);
+    let res = {};
+    for (const field of arrayfields) {
+        const fieldElement = data.get(field)
+        form[field].classList.remove('error');
+        if (!fieldElement){
+            form[field].classList.add('error');
+        }
+        res[field] = fieldElement;
+    }
+    let isValid = true;
+    for(const field of arrayfields) {
+        if(!res[field]) {
+            isValid = false;
+        }
+    }
+    if(!isValid) {
+        return;
+    }
+    return res;
+}
+
+function resetForm(event) {
+    const form = event
+    let arrayfields =
+        [...form.querySelectorAll('input')].map(el => el.name);
+    for(const field of arrayfields) {
+        form[field].value = '';
     }
 }
 
