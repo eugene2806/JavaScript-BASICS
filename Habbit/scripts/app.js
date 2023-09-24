@@ -55,8 +55,12 @@ function rerenderMenu(activeHabbit) {
         //Find and set active class
         if(activeHabbit.id === habbit.id) {
             existed.classList.add('menu__item_active');
+            existed.innerHTML =
+                `<img src = "./images/${habbit.icon}.svg" alt = "${habbit.name}"/>
+                <div class="menu__item-close" onclick="removeHabbit()"><img src="./images/delete.svg" alt=""></div>`;
         } else {
             existed.classList.remove('menu__item_active');
+            existed.innerHTML = `<img src="./images/${habbit.icon}.svg" alt="${habbit.name}" />`;
         }
     }
 }
@@ -130,6 +134,25 @@ function removeDays(index) {
     saveData();
 }
 
+function removeHabbit() {
+    const removeId = Number(document.querySelector('.menu__item_active').getAttribute('menu-habbit-id'));
+    const removeIndex = habbits.findIndex(el => el.id === removeId);
+    if(removeIndex === -1) {
+        return;
+    }
+    habbits.splice(removeIndex, 1);
+    console.log(habbits);
+    document.querySelector('.menu__list').innerHTML = '';
+    saveData();
+    console.log(habbits.length)
+    if(habbits.length !== 0) {
+        rerender(habbits[0].id);
+    } else {
+        rerender(0);
+    }
+    
+}
+
 // function togglePopup() {
 //     const hidden = document.querySelector('.cover_hidden');
 //     if(!hidden) {
@@ -142,6 +165,9 @@ function removeDays(index) {
 function togglePopup() {
     if (page.popup.index.classList.contains('cover_hidden')) {
         page.popup.index.classList.remove('cover_hidden');
+        const context = document.querySelector('.icon');
+        selectIcon(context, 'sport');
+        page.popup.iconField.value = 'sport';
     } else {
         page.popup.index.classList.add('cover_hidden');
     }
@@ -169,9 +195,9 @@ function addHabbit(event) {
         "days": []
     });
     saveData();
+    resetForm(event.target);
     rerender(maxId + 1);
     togglePopup();
-    resetForm(event.target);
 }
 
 function validationForm(event) {
@@ -212,5 +238,11 @@ function resetForm(event) {
 /* Init */
 (() => {
     loadData();
-    rerender(habbits[0].id);
+    if (habbits.length !== 0) {
+        rerender(habbits[0].id);
+    } else {
+        rerender();
+    }
+    
+    // rerender(habbits[0].id);
 })();
