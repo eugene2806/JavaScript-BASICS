@@ -14,7 +14,8 @@ const page = {
     },
     content: {
         daysContainer: document.getElementById('days'),
-        nextDay: document.querySelector('.habbit__day')
+        nextDay: document.querySelector('.habbit__day'),
+        nextDayHidden: document.querySelector('.habbit')    
     },
     popup: {
         index: document.getElementById('add-habbit_popup'),
@@ -44,7 +45,13 @@ function rerenderMenu(activeHabbit) {
             const element = document.createElement('button');
             element.setAttribute('menu-habbit-id', habbit.id);
             element.classList.add('menu__item');
-            element.addEventListener('click', () => rerender(habbit.id));
+            element.addEventListener('click', () => {
+                const findId = habbits.find(id => id.id === habbit.id)  
+                if (!findId) {
+                    return;
+                }
+                rerender(findId.id);
+            });
             element.innerHTML = `<img src="./images/${habbit.icon}.svg" alt="${habbit.name}" />`;
             if (activeHabbit.id === habbit.id) {
                 element.classList.add('menu__item_active');
@@ -57,7 +64,7 @@ function rerenderMenu(activeHabbit) {
             existed.classList.add('menu__item_active');
             existed.innerHTML =
                 `<img src = "./images/${habbit.icon}.svg" alt = "${habbit.name}"/>
-                <div class="menu__item-close" onclick="removeHabbit()"><img src="./images/delete.svg" alt=""></div>`;
+                <button class="menu__item-close" onclick="removeHabbit()"><img src="./images/delete.svg" alt=""></button>`;
         } else {
             existed.classList.remove('menu__item_active');
             existed.innerHTML = `<img src="./images/${habbit.icon}.svg" alt="${habbit.name}" />`;
@@ -92,9 +99,14 @@ function renderContent(activeHabbit) {
 function rerender(activeHabbitId) {
     globalActiveHabbit = activeHabbitId;
     const activeHabbit = habbits.find(habbit => habbit.id === activeHabbitId);
+    
     if(!activeHabbit) {
+        page.content.daysContainer.innerHTML = '';
+        page.content.nextDayHidden.classList.add('habbit_hidden');
+        page.header.h1.innerText = 'Добавьте привычку';
         return;
     }
+    page.content.nextDayHidden.classList.remove('habbit_hidden');
     rerenderMenu(activeHabbit);
     renderHead(activeHabbit);
     renderContent(activeHabbit);
@@ -141,15 +153,14 @@ function removeHabbit() {
         return;
     }
     habbits.splice(removeIndex, 1);
-    console.log(habbits);
     document.querySelector('.menu__list').innerHTML = '';
-    saveData();
-    console.log(habbits.length)
+    
     if(habbits.length !== 0) {
         rerender(habbits[0].id);
     } else {
-        rerender(0);
+        rerender();
     }
+    saveData();
     
 }
 
@@ -243,6 +254,4 @@ function resetForm(event) {
     } else {
         rerender();
     }
-    
-    // rerender(habbits[0].id);
 })();

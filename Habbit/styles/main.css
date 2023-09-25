@@ -46,17 +46,26 @@ body {
     width: 45px;
     cursor: pointer;
     position: relative;
+    transition: all 0.7s;
 }
 
 .menu__item-close {
     position: absolute;
-    background: #5051F9;
+    background: #4343ff;  
+    box-shadow: 0px 8px 14px 0px rgba(29, 25, 96, 0.5);
     border: none;
-    border-radius: 100%;
+    border-radius: 10px;
+    transform: scale(60%);
     top: -10px;
     right: -10px;
+    transition: all 0.8s;
 }
 
+.menu__item-close:hover {
+    background: #3232c9;
+    transform: scale(80%);
+    cursor: pointer;
+}
 .menu__item:hover {
     background: #6A6AFB;
 }
@@ -185,6 +194,10 @@ main {
 
 .habbit__delete:hover {
     background: #f0f3fb;
+}
+
+.habbit_hidden {
+    display: none;
 }
 
 input {
