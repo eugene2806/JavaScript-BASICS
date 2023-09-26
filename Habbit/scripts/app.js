@@ -106,6 +106,7 @@ function rerender(activeHabbitId) {
         page.header.h1.innerText = 'Добавьте привычку';
         return;
     }
+    document.location.replace(document.location.pathname + '#' + activeHabbitId);
     page.content.nextDayHidden.classList.remove('habbit_hidden');
     rerenderMenu(activeHabbit);
     renderHead(activeHabbit);
@@ -154,16 +155,19 @@ function removeHabbit() {
     }
     habbits.splice(removeIndex, 1);
     document.querySelector('.menu__list').innerHTML = '';
-    
-    if(habbits.length !== 0) {
-        rerender(habbits[0].id);
-    } else {
-        rerender();
-    }
+    chekEmptyArray();
+
     saveData();
     
 }
 
+function chekEmptyArray () {
+    if (habbits.length !== 0) {
+        rerender(habbits[0].id);
+    } else {
+        rerender();
+    }
+}
 // function togglePopup() {
 //     const hidden = document.querySelector('.cover_hidden');
 //     if(!hidden) {
@@ -249,9 +253,11 @@ function resetForm(event) {
 /* Init */
 (() => {
     loadData();
-    if (habbits.length !== 0) {
+    const hashId = Number(document.location.hash.replace('#', ''));
+    const urlHabbit = habbits.find(habbit => habbit.id === hashId);
+    if (!urlHabbit) {
         rerender(habbits[0].id);
     } else {
-        rerender();
+        rerender(urlHabbit.id)
     }
 })();
